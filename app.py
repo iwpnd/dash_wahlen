@@ -16,18 +16,29 @@ wahlen_pv = pd.pivot_table(
     aggfunc=sum, 
     fill_value=0
     )
-wahlen_pv.index = ['Charlottenburg-Wilmersdorf', 'Friedrichshain-Kreuzberg', 'Lichtenberg',
-                   'Marzahn-Hellersdorf', 'Mitte', 'Neukoelln', 'Pankow',
-                   'Reinickendorf', 'Spandau', 'Steglitz-Zehlendorf',
-                   'Tempelhof-Schoeneberg', 'Treptow-Koepenick']
 
-trace1 = go.Bar(x=wahlen_pv.index, y=wahlen_df['cdu_p'], name='CDU')
-trace2 = go.Bar(x=wahlen_pv.index, y=wahlen_df['spd_p'], name='SPD')
-trace3 = go.Bar(x=wahlen_pv.index, y=wahlen_df['linke_p'], name='DIE LINKE')
-trace4 = go.Bar(x=wahlen_pv.index, y=wahlen_df['gruene_p'], name='GRUENE')
-trace5 = go.Bar(x=wahlen_pv.index, y=wahlen_df['afd_p'], name='AfD')
-trace6 = go.Bar(x=wahlen_pv.index, y=wahlen_df['piraten_p'], name='Piraten')
-trace7 = go.Bar(x=wahlen_pv.index, y=wahlen_df['fdp_p'], name='FDP')
+wahlen_pv.index = [
+    'Charlottenburg-Wilmersdorf', 
+    'Friedrichshain-Kreuzberg', 
+    'Lichtenberg',
+    'Marzahn-Hellersdorf', 
+    'Mitte', 
+    'Neukoelln', 
+    'Pankow',
+    'Reinickendorf', 
+    'Spandau', 
+    'Steglitz-Zehlendorf',
+    'Tempelhof-Schoeneberg', 
+    'Treptow-Koepenick'
+    ]
+
+cdu = go.Bar(x=wahlen_pv.index, y=wahlen_df['cdu_p'], name='CDU')
+spd = go.Bar(x=wahlen_pv.index, y=wahlen_df['spd_p'], name='SPD')
+linke = go.Bar(x=wahlen_pv.index, y=wahlen_df['linke_p'], name='DIE LINKE')
+gruene = go.Bar(x=wahlen_pv.index, y=wahlen_df['gruene_p'], name='GRUENE')
+afd = go.Bar(x=wahlen_pv.index, y=wahlen_df['afd_p'], name='AfD')
+piraten = go.Bar(x=wahlen_pv.index, y=wahlen_df['piraten_p'], name='Piraten')
+fdp = go.Bar(x=wahlen_pv.index, y=wahlen_df['fdp_p'], name='FDP')
 
 
 app.layout = html.Div(children=[
@@ -40,18 +51,22 @@ app.layout = html.Div(children=[
         },
         figure={
             'data': [
-                trace1,
-                trace2, 
-                trace3, 
-                trace4,
-                trace5,
-                trace6,
-                trace7
+                cdu, 
+                gruene, 
+                linke,
+                spd,
+                fdp,
+                afd,
+                piraten
                 ],
             'layout':
-            go.Layout(title='Anteil Zweitstimme pro Bezirk', barmode='stack')
+            go.Layout(
+                title='Anteil Zweitstimme pro Bezirk', 
+                barmode='stack'
+                )
         })
 ])
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
