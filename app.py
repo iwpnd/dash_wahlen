@@ -7,7 +7,7 @@ import pandas as pd
 
 app = dash.Dash()
 
-wahlen_df = pd.read_csv('wahlen.csv')
+wahlen_df = pd.read_csv('./data/wahlen.csv')
 wahlen_df['beteiligung'] = wahlen_df.waehler / wahlen_df.waehler_be
 
 wahlen_pv = pd.pivot_table(
@@ -43,7 +43,7 @@ fdp = go.Bar(x=wahlen_pv.index, y=wahlen_df['fdp_p'], name='FDP')
 
 app.layout = html.Div(children=[
     html.H1(children='Wahlergebnis Bundestagswahl 2017'),
-    html.Div(),
+    
     dcc.Graph(
         id='sgraph',
         config={
@@ -64,7 +64,40 @@ app.layout = html.Div(children=[
                 title='Anteil Zweitstimme pro Bezirk', 
                 barmode='stack'
                 )
-        })
+        }),
+      
+    dcc.Graph(
+        id='b-vs-afdp',
+        config={
+            'displayModeBar': False
+        },
+        figure={
+            'data': [
+                go.Scatter(
+                    x=wahlen_df[wahlen_df['bezirkname'] == i]['afd_p'],
+                    y=wahlen_df[wahlen_df['bezirkname'] == i]['beteiligung'],
+                    text=wahlen_df[wahlen_df['bezirkname'] == i]['wahlbezirk'],
+                    mode='markers',
+                    opacity=0.3,
+                    marker={
+                        'size': 15,
+                        'line': {'width': 0.5, 'color': 'white'}
+                        },
+                        name = i
+                ) for i in wahlen_df.bezirkname.unique()
+                ],
+            'layout':
+                go.Layout(
+                    #title='Wahlbeteilung im Bezirk vs Wahlergebnis AfD',
+                    xaxis={'title': 'Wahlergebnis AfD'},
+                    yaxis={'title': 'Wahlbeteiligung in %'},
+                    margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
+                    legend={'x': 10, 'y': 0},
+                    hovermode='closest'
+            )
+        }
+    )
+
 ])
 
 
