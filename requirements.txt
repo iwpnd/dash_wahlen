@@ -1,0 +1,6 @@
+dash==0.18.3
+plotly==2.0.12
+geopandas==0.3.0
+pandas==0.23.1
+dash_core_components==0.13.0
+dash_html_components==0.8.0

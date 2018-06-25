@@ -1,4 +1,6 @@
 .vscode/
+.data/
 env/
 Untitled.ipynb
 .ipynb_checkpoints/
+__pycache__/derp.cpython-36.pyc
